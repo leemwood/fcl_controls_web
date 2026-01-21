@@ -202,6 +202,7 @@ onMounted(() => {
           :key="ctrl.id" 
           :controller="ctrl"
           :base-url="baseUrl"
+          :category-names="ctrl.categories.map(id => getCategoryName(id))"
           @click="handleControllerClick"
         />
       </div>

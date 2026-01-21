@@ -6,6 +6,7 @@ import type { ControllerItem } from '@/types'
 const props = defineProps<{
   controller: ControllerItem
   baseUrl: string
+  categoryNames?: string[]
 }>()
 
 const emit = defineEmits<{
@@ -20,17 +21,39 @@ const iconUrl = computed(() => {
 
 <template>
   <Card 
-    class="cursor-pointer hover:bg-accent/50 transition-colors group overflow-hidden flex flex-col h-full"
+    class="cursor-pointer hover:bg-accent/50 transition-colors group overflow-hidden flex flex-col h-full border shadow-sm"
     @click="emit('click', controller)"
   >
-    <CardContent class="p-3 sm:p-4 flex flex-col items-center justify-center pt-5 sm:pt-6">
-        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted shadow-sm">
+    <!-- Top Section: Icon + Title + Tags -->
+    <div class="p-4 flex gap-4">
+        <!-- Icon -->
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-muted flex-shrink-0 border shadow-sm">
             <img :src="iconUrl" :alt="controller.name" class="w-full h-full object-cover" loading="lazy" />
         </div>
-    </CardContent>
-    <CardFooter class="p-3 sm:p-4 border-t bg-card flex-1 flex flex-col items-start gap-1">
-      <h3 class="font-semibold text-base sm:text-lg leading-tight line-clamp-1" :title="controller.name">{{ controller.name }}</h3>
-      <p class="text-xs sm:text-sm text-muted-foreground line-clamp-2" :title="controller.introduction">
+        
+        <!-- Title & Tags -->
+        <div class="flex flex-col justify-center min-w-0 flex-1">
+            <h3 class="font-bold text-lg sm:text-xl leading-tight truncate mb-1" :title="controller.name">
+                {{ controller.name }}
+            </h3>
+            <div class="flex flex-wrap gap-1.5">
+                <span 
+                    v-for="cat in categoryNames" 
+                    :key="cat"
+                    class="px-2 py-0.5 rounded-full border text-[10px] sm:text-xs font-medium bg-secondary/50 text-secondary-foreground whitespace-nowrap"
+                >
+                    {{ cat }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-dashed mx-4"></div>
+
+    <!-- Bottom Section: Introduction -->
+    <CardFooter class="p-4 pt-3 flex-1 flex flex-col items-start bg-transparent">
+      <p class="text-sm sm:text-base text-muted-foreground line-clamp-2 leading-relaxed italic" :title="controller.introduction">
         {{ controller.introduction }}
       </p>
     </CardFooter>
