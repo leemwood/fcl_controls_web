@@ -11,7 +11,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { DownloadIcon, UserIcon, InfoIcon, HistoryIcon, XIcon, ExternalLinkIcon } from 'lucide-vue-next'
+import { DownloadIcon, UserIcon, InfoIcon, HistoryIcon, XIcon } from 'lucide-vue-next'
 import type { ControllerItem, ControllerDetail } from '@/types'
 import { downloadFile } from '@/lib/utils'
 
@@ -84,12 +84,6 @@ const downloadUrl = (version: string) => {
     return `${props.baseUrl.replace(/\/$/, '')}/repo_json/${props.controller.id}/versions/${version}.json`
 }
 
-const redirectUrl = (version: string) => {
-    const url = downloadUrl(version)
-    if (url === '#') return '#'
-    return `fcl://install/controller?url=${encodeURIComponent(url)}`
-}
-
 const handleDownload = (version: string) => {
     const url = downloadUrl(version)
     if (url === '#') return
@@ -128,12 +122,6 @@ const handleDownload = (version: string) => {
                 </DialogDescription>
             </div>
             <div class="flex flex-col gap-2 shrink-0">
-                <a :href="redirectUrl(detail?.latest.versionCode.toString() || '1')">
-                    <Button size="sm" class="sm:h-10 w-full bg-primary hover:bg-primary/90">
-                        <ExternalLinkIcon class="w-4 h-4 sm:mr-2" />
-                        <span class="hidden sm:inline">{{ t('controller.redirect') }}</span>
-                    </Button>
-                </a>
                 <Button 
                     size="sm" 
                     variant="outline" 
@@ -189,18 +177,13 @@ const handleDownload = (version: string) => {
                   <span class="text-[10px] sm:text-xs text-muted-foreground">Code: {{ ver.versionCode }}</span>
                 </div>
                 <div class="flex gap-1">
-                  <a :href="redirectUrl(ver.versionCode.toString())">
-                    <Button variant="ghost" size="sm" class="text-primary hover:text-primary hover:bg-primary/10">
-                        <ExternalLinkIcon class="w-4 h-4" />
-                    </Button>
-                  </a>
                   <Button 
-                     variant="ghost" 
-                     size="sm"
-                     @click="handleDownload(ver.versionCode.toString())"
-                   >
-                       <DownloadIcon class="w-4 h-4" />
-                   </Button>
+                      variant="ghost" 
+                      size="sm"
+                      @click="handleDownload(ver.versionCode.toString())"
+                    >
+                        <DownloadIcon class="w-4 h-4" />
+                    </Button>
                 </div>
               </div>
             </div>
