@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { DownloadIcon, UserIcon, InfoIcon, HistoryIcon, XIcon, ExternalLinkIcon } from 'lucide-vue-next'
 import type { ControllerItem, ControllerDetail } from '@/types'
+import { downloadFile } from '@/lib/utils'
 
 const props = defineProps<{
   open: boolean
@@ -88,6 +89,13 @@ const redirectUrl = (version: string) => {
     if (url === '#') return '#'
     return `fcl://install/controller?url=${encodeURIComponent(url)}`
 }
+
+const handleDownload = (version: string) => {
+    const url = downloadUrl(version)
+    if (url === '#') return
+    const filename = `${props.controller?.name || 'controller'}_${version}.json`
+    downloadFile(url, filename)
+}
 </script>
 
 <template>
@@ -126,12 +134,15 @@ const redirectUrl = (version: string) => {
                         <span class="hidden sm:inline">{{ t('controller.redirect') }}</span>
                     </Button>
                 </a>
-                <a :href="downloadUrl(detail?.latest.versionCode.toString() || '1')" download>
-                    <Button size="sm" variant="outline" class="sm:h-10 w-full">
-                        <DownloadIcon class="w-4 h-4 sm:mr-2" />
-                        <span class="hidden sm:inline">{{ t('controller.download') }}</span>
-                    </Button>
-                </a>
+                <Button 
+                    size="sm" 
+                    variant="outline" 
+                    class="sm:h-10 w-full"
+                    @click="handleDownload(detail?.latest.versionCode.toString() || '1')"
+                >
+                    <DownloadIcon class="w-4 h-4 sm:mr-2" />
+                    <span class="hidden sm:inline">{{ t('controller.download') }}</span>
+                </Button>
             </div>
           </div>
         </DialogHeader>
@@ -183,11 +194,13 @@ const redirectUrl = (version: string) => {
                         <ExternalLinkIcon class="w-4 h-4" />
                     </Button>
                   </a>
-                  <a :href="downloadUrl(ver.versionCode.toString())" download>
-                    <Button variant="ghost" size="sm">
-                        <DownloadIcon class="w-4 h-4" />
-                    </Button>
-                  </a>
+                  <Button 
+                     variant="ghost" 
+                     size="sm"
+                     @click="handleDownload(ver.versionCode.toString())"
+                   >
+                       <DownloadIcon class="w-4 h-4" />
+                   </Button>
                 </div>
               </div>
             </div>
