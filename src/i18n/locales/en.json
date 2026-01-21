@@ -1,0 +1,21 @@
+{
+  "app": {
+    "title": "FCL Controllers Repository",
+    "search_placeholder": "Search controllers...",
+    "refresh": "Refresh",
+    "all_categories": "All",
+    "no_resources": "No controllers found matching your criteria",
+    "clear_filters": "Clear filters",
+    "error_title": "Oops! Something went wrong",
+    "error_hint": "Try checking the URL or ensuring the server allows directory listing.",
+    "footer_copy": "© 2026 FCL Controllers Repository Browser. Built with Vue 3 + Vite + Tailwind."
+  },
+  "controller": {
+    "screenshots": "Screenshots",
+    "introduction": "Introduction",
+    "history": "History",
+    "download": "Download",
+    "author": "Author",
+    "version": "Version"
+  }
+}
