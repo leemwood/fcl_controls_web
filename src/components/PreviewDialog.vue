@@ -11,7 +11,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { DownloadIcon, UserIcon, InfoIcon, HistoryIcon, XIcon } from 'lucide-vue-next'
+import { DownloadIcon, UserIcon, InfoIcon, HistoryIcon, XIcon, ExternalLinkIcon } from 'lucide-vue-next'
 import type { ControllerItem, ControllerDetail } from '@/types'
 
 const props = defineProps<{
@@ -82,6 +82,12 @@ const downloadUrl = (version: string) => {
     if (!props.controller) return '#'
     return `${props.baseUrl.replace(/\/$/, '')}/repo_json/${props.controller.id}/versions/${version}.json`
 }
+
+const redirectUrl = (version: string) => {
+    const url = downloadUrl(version)
+    if (url === '#') return '#'
+    return `fcl://install/controller?url=${encodeURIComponent(url)}`
+}
 </script>
 
 <template>
@@ -114,8 +120,14 @@ const downloadUrl = (version: string) => {
                 </DialogDescription>
             </div>
             <div class="flex flex-col gap-2 shrink-0">
+                <a :href="redirectUrl(detail?.latest.versionCode.toString() || '1')">
+                    <Button size="sm" class="sm:h-10 w-full bg-primary hover:bg-primary/90">
+                        <ExternalLinkIcon class="w-4 h-4 sm:mr-2" />
+                        <span class="hidden sm:inline">{{ t('controller.redirect') }}</span>
+                    </Button>
+                </a>
                 <a :href="downloadUrl(detail?.latest.versionCode.toString() || '1')" download>
-                    <Button size="sm" class="sm:h-10">
+                    <Button size="sm" variant="outline" class="sm:h-10 w-full">
                         <DownloadIcon class="w-4 h-4 sm:mr-2" />
                         <span class="hidden sm:inline">{{ t('controller.download') }}</span>
                     </Button>
@@ -165,11 +177,18 @@ const downloadUrl = (version: string) => {
                   <span class="font-medium">{{ t('controller.version') }} {{ ver.versionName }}</span>
                   <span class="text-[10px] sm:text-xs text-muted-foreground">Code: {{ ver.versionCode }}</span>
                 </div>
-                <a :href="downloadUrl(ver.versionCode.toString())" download>
-                  <Button variant="ghost" size="sm">
-                      <DownloadIcon class="w-4 h-4" />
-                  </Button>
-                </a>
+                <div class="flex gap-1">
+                  <a :href="redirectUrl(ver.versionCode.toString())">
+                    <Button variant="ghost" size="sm" class="text-primary hover:text-primary hover:bg-primary/10">
+                        <ExternalLinkIcon class="w-4 h-4" />
+                    </Button>
+                  </a>
+                  <a :href="downloadUrl(ver.versionCode.toString())" download>
+                    <Button variant="ghost" size="sm">
+                        <DownloadIcon class="w-4 h-4" />
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
           </section>

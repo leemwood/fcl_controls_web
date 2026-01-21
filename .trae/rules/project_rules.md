@@ -6,6 +6,7 @@
 - 始终使用简体中文。
 - 技术栈：Vue 3, TypeScript, Vite, shadcn-vue, Tailwind CSS, vue-i18n。
 - API 结构：使用 index.json 获取控制器列表，category.json 获取分类，repo_json/{id}/version.json 获取详情。
+- 下载定向：使用 fcl://install/controller?url={url} 协议实现一键导入功能。
 - 国际化：使用 vue-i18n 管理多语言，语言包位于 src/i18n/locales/。
 - 样式规范：优先使用 Tailwind CSS 类，全局样式在 src/style.css 中。
 - 组件库：使用 shadcn-vue 组件，位于 src/components/ui/。
