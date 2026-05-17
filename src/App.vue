@@ -23,7 +23,7 @@ import type { ControllerItem, Category } from '@/types'
 
 const { t, locale } = useI18n()
 
-const baseUrl = ref('https://fcl.lemwood.icu/fcl_controllers/')
+const baseUrl = ref('https://repo.miawa.cn/fcl_controllers/')
 const controllers = ref<ControllerItem[]>([])
 const categories = ref<Category[]>([])
 const loading = ref(false)
